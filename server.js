@@ -7,8 +7,10 @@ import userRouter from "./routes/user.route.js";
 import productRouter from "./routes/productRoutes.js";
 import categoryRouter from "./routes/categoryRoutes.js";
 import uploadRouter from "./routes/uploadRoutes.js";
+import orderRouter from "./routes/orderRoutes.js"
 import { connectDB } from "./config/db.js";
 import path from "path"
+import cors from "cors"
 
 
 const app = express();
@@ -16,6 +18,7 @@ const app = express();
 app.use(express.json());
 app.use(morgan("dev"));
 app.use(cookieParser())
+app.use(cors())
 
 connectDB();
 
@@ -23,6 +26,7 @@ app.use("/api/user", userRouter);
 app.use("/api/product", productRouter);
 app.use("/api/category", categoryRouter);
 app.use("/api/upload", uploadRouter);
+app.use('/api/order', orderRouter);
 
 const __dirname = path.resolve();
 
@@ -35,7 +39,7 @@ app.use("*", (req, res) => {
     })
 })
 
-const port = 4000;
+const port = process.env.PORT;
 
 app.listen(port, () => {
     console.log(`server is running on port ${port}`)
